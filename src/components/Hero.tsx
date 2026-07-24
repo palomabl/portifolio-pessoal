@@ -1,4 +1,5 @@
 import StatusBar from './StatusBar'
+import ProfileCard from './ProfileCard/ProfileCard'
 
 const destaques = [
   {
@@ -31,7 +32,7 @@ export default function Hero() {
         <div className="border border-orquidea bg-navy-painel p-6 shadow-brutal sm:p-10">
           <StatusBar label="STATUS: DISPONÍVEL P/ PJ" />
           <h1 className="mt-6 font-mono text-3xl font-bold leading-tight text-papel-quente sm:text-4xl lg:text-5xl">
-            Tecnologia com visão de negócio:{' '}
+            Tecnologia pensada pro seu negócio:{' '}
             <span className="text-orquidea">sistemas que organizam, automatizam e dão controle</span>
           </h1>
           <p className="mt-6 max-w-2xl text-lg text-papel-quente/85">
@@ -46,13 +47,28 @@ export default function Hero() {
           </a>
         </div>
 
-        <div className="hidden border border-menta bg-navy-painel p-4 shadow-brutal lg:block">
-          <StatusBar label="AVATAR_3D" />
-          {/* espaço reservado para avatar 3D futuro */}
-          <div className="mt-4 flex aspect-square items-center justify-center border border-dashed border-menta/40">
-            <span className="font-mono text-xs text-menta/50">em breve</span>
+          <div className="mt-4 flex items-center justify-center">
+            <ProfileCard
+              className="pc-card--compact"
+              name="Paloma B. Lima"
+              title="Desenvolvedora de Software"
+              handle="palomalima"
+              status="Disponível p/ PJ"
+              contactText="Contato"
+              avatarUrl="/profile.jpg"
+              showUserInfo={false}
+              enableTilt={true}
+              enableMobileTilt={false}
+              onContactClick={() => {
+                window.location.href = '#contato'
+              }}
+              behindGlowColor="rgba(177, 78, 255, 0.5)"
+              iconUrl="/profile-pattern.svg"
+              grainUrl="/grain.svg"
+              behindGlowEnabled
+              innerGradient="linear-gradient(145deg, #b14eff55 0%, #4ce0b344 100%)"
+            />
           </div>
-        </div>
       </div>
 
       <div className="mt-8 border border-menta bg-navy-painel p-6 shadow-brutal">
