@@ -1,8 +1,8 @@
 export default function Sobre() {
   return (
     <section id="sobre" className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-      <h2 className="text-2xl font-semibold text-papel-quente sm:text-3xl">Sobre mim</h2>
-      <div className="mt-8 max-w-3xl space-y-6 text-papel-quente/85">
+      <h2 className="text-2xl font-semibold text-indigo-profundo sm:text-3xl">Sobre mim</h2>
+      <div className="mt-8 max-w-3xl space-y-6 text-indigo-profundo/85">
         <p>
           Sou Paloma Brum Lima, desenvolvedora com mais de um ano e meio de experiência criando
           sistemas internos para uma cooperativa do setor financeiro (SICOOB). Meu trabalho nasce de
@@ -20,7 +20,7 @@ export default function Sobre() {
           identificação de gargalos operacionais, sempre buscando entender o problema de negócio
           antes de escrever a primeira linha de código.
         </p>
-        <p className="border-l-2 border-menta pl-4 text-papel-quente/75">
+        <p className="border-l-2 border-menta pl-4 text-indigo-profundo/75">
           Desde criança eu já gostava de mexer no computador — descobrir como as coisas funcionavam,
           tentar consertar o que dava errado. Esse gosto por entender e resolver problemas foi
           crescendo comigo, e hoje ele é a base de como trabalho: não é só entregar uma ferramenta, é

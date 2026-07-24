@@ -1,8 +1,10 @@
+import { useState } from 'react'
 import StatusBar from './StatusBar'
 
 interface Projeto {
-  codigo: string
+  categoria: string
   nome: string
+  imagem: string
   problema: string
   solucao: string
   funcionalidades: string[]
@@ -12,8 +14,9 @@ interface Projeto {
 
 const projetos: Projeto[] = [
   {
-    codigo: 'PROJETO_01',
+    categoria: 'Gestão de demandas',
     nome: 'Sistema de Gestão de Demandas',
+    imagem: '/projetos/sistema-gestao-demandas.png',
     destaque: true,
     problema:
       'Colaboradores registravam e acompanhavam solicitações de forma dispersa — misturando e-mail, Teams e conversas informais — sem rastreabilidade, sem métricas e sem clareza sobre o andamento de cada demanda.',
@@ -31,8 +34,9 @@ const projetos: Projeto[] = [
       'Adotado por mais de 90% dos 400+ colaboradores, com mais de 17.900 demandas registradas.',
   },
   {
-    codigo: 'PROJETO_02',
+    categoria: 'Metas e desempenho',
     nome: 'Sistema de Metas Estratégicas',
+    imagem: '/projetos/sistema-metas-estrategicas.png',
     problema:
       'Setores sem forma padronizada de registrar e acompanhar metas estratégicas, dificultando visão consolidada do progresso da empresa.',
     solucao:
@@ -48,8 +52,9 @@ const projetos: Projeto[] = [
       'Consolidação da visão de progresso da empresa e maior clareza na identificação de gargalos entre setores.',
   },
   {
-    codigo: 'PROJETO_03',
+    categoria: 'Financeiro e auditoria',
     nome: 'Livro Caixa Digital',
+    imagem: '/projetos/livro-caixa-digital.png',
     problema:
       'Lançamentos do caixa diário registrados manualmente, dificultando auditoria e rastreabilidade.',
     solucao:
@@ -66,8 +71,9 @@ const projetos: Projeto[] = [
       'Atende 40 agências e mais de 140 colaboradores, eliminando o registro manual diário das movimentações de caixa e reduzindo a probabilidade de erro humano.',
   },
   {
-    codigo: 'PROJETO_04',
+    categoria: 'Educação financeira',
     nome: 'CoopKids',
+    imagem: '/projetos/coopkids.png',
     problema: 'Pais com dificuldade em organizar a mesada dos filhos de forma educativa.',
     solucao:
       'Aplicativo onde crianças cumprem tarefas diárias, acumulam pontos e recebem a mesada calculada automaticamente, com quizzes para recuperação de valores.',
@@ -83,8 +89,9 @@ const projetos: Projeto[] = [
       'Incentivo à responsabilidade e educação financeira infantil por meio de sistema gamificado.',
   },
   {
-    codigo: 'PROJETO_05',
+    categoria: 'Processos e cadastro',
     nome: 'Gerenciador de Cadastros',
+    imagem: '/projetos/gerenciador-cadastros.png',
     problema:
       'Processos de abertura de contas e renovação de cadastros sem padronização, dificultando acompanhamento de desempenho dos cadastristas.',
     solucao:
@@ -101,36 +108,64 @@ const projetos: Projeto[] = [
   },
 ]
 
+function ProjetoScreenshot({ src, alt }: { src: string; alt: string }) {
+  const [carregou, setCarregou] = useState(true)
+
+  if (!carregou) {
+    return (
+      <div className="mt-4 flex aspect-video items-center justify-center rounded-sm border border-dashed border-linha bg-papel-quente px-4 text-center">
+        <p className="text-xs text-indigo-profundo/50">
+          Print do sistema em breve
+          <br />
+          <span className="font-mono">{src.replace('/projetos/', '')}</span>
+        </p>
+      </div>
+    )
+  }
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      loading="lazy"
+      onError={() => setCarregou(false)}
+      className="mt-4 aspect-video w-full rounded-sm border border-linha object-cover"
+    />
+  )
+}
+
 function ProjetoCard({ projeto }: { projeto: Projeto }) {
   const borderColor = projeto.destaque ? 'border-orquidea' : 'border-menta'
   return (
     <article
-      className={`border ${borderColor} bg-navy-painel p-6 shadow-brutal sm:p-8 ${
+      className={`border ${borderColor} bg-papel-cartao p-6 shadow-brutal sm:p-8 ${
         projeto.destaque ? 'md:col-span-2' : ''
       }`}
     >
-      <StatusBar label={projeto.codigo} color={projeto.destaque ? 'orquidea' : 'menta'} />
-      <h3 className="mt-4 font-mono text-xl font-bold text-papel-quente sm:text-2xl">
+      <StatusBar label={projeto.categoria} color={projeto.destaque ? 'orquidea' : 'menta'} />
+      <h3 className="mt-4 text-xl font-bold text-indigo-profundo sm:text-2xl">
         {projeto.nome}
       </h3>
 
-      <dl className="mt-6 space-y-4 text-sm text-papel-quente/85">
+      <ProjetoScreenshot src={projeto.imagem} alt={`Print do sistema: ${projeto.nome}`} />
+
+      <dl className="mt-6 space-y-4 text-sm text-indigo-profundo/85">
         <div>
-          <dt className="font-mono text-xs tracking-widest text-orquidea">PROBLEMA</dt>
+          <dt className="text-xs font-semibold uppercase tracking-wide text-orquidea">Problema</dt>
           <dd className="mt-1">{projeto.problema}</dd>
         </div>
         <div>
-          <dt className="font-mono text-xs tracking-widest text-orquidea">SOLUÇÃO</dt>
+          <dt className="text-xs font-semibold uppercase tracking-wide text-orquidea">Solução</dt>
           <dd className="mt-1">{projeto.solucao}</dd>
         </div>
         <div>
-          <dt className="font-mono text-xs tracking-widest text-orquidea">FUNCIONALIDADES</dt>
+          <dt className="text-xs font-semibold uppercase tracking-wide text-orquidea">O que o sistema faz</dt>
           <dd className="mt-2">
             <ul className="flex flex-wrap gap-2">
               {projeto.funcionalidades.map((f) => (
                 <li
                   key={f}
-                  className="rounded-sm bg-indigo-profundo px-2.5 py-1 font-mono text-xs text-menta"
+                  className="rounded-sm bg-indigo-profundo px-2.5 py-1 text-xs text-menta"
                 >
                   {f}
                 </li>
@@ -139,7 +174,7 @@ function ProjetoCard({ projeto }: { projeto: Projeto }) {
           </dd>
         </div>
         <div>
-          <dt className="font-mono text-xs tracking-widest text-orquidea">IMPACTO</dt>
+          <dt className="text-xs font-semibold uppercase tracking-wide text-orquidea">Resultado</dt>
           <dd className="mt-1 font-medium text-menta">{projeto.impacto}</dd>
         </div>
       </dl>
@@ -150,12 +185,12 @@ function ProjetoCard({ projeto }: { projeto: Projeto }) {
 export default function Projetos() {
   return (
     <section id="projetos" className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-      <h2 className="font-mono text-2xl font-bold text-papel-quente sm:text-3xl">
-        Projetos <span className="text-orquidea">// Estudos de Caso</span>
+      <h2 className="text-2xl font-bold text-indigo-profundo sm:text-3xl">
+        Projetos <span className="text-orquidea">e resultados entregues</span>
       </h2>
       <div className="mt-8 grid gap-6 md:grid-cols-2">
         {projetos.map((p) => (
-          <ProjetoCard key={p.codigo} projeto={p} />
+          <ProjetoCard key={p.nome} projeto={p} />
         ))}
       </div>
     </section>

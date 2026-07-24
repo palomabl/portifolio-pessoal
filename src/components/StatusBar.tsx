@@ -4,10 +4,12 @@ interface StatusBarProps {
 }
 
 export default function StatusBar({ label, color = 'menta' }: StatusBarProps) {
-  const colorClass = color === 'orquidea' ? 'text-orquidea' : 'text-menta'
+  const dotClass = color === 'orquidea' ? 'bg-orquidea' : 'bg-menta'
+  const textClass = color === 'orquidea' ? 'text-orquidea' : 'text-menta'
   return (
-    <p className={`font-mono text-xs tracking-widest ${colorClass}`} aria-hidden="true">
-      [ {label} ]
+    <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide" aria-hidden="true">
+      <span className={`h-1.5 w-1.5 rounded-full ${dotClass}`} />
+      <span className={textClass}>{label}</span>
     </p>
   )
 }
