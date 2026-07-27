@@ -1,5 +1,5 @@
 import StatusBar from './StatusBar'
-import ProfileCard from './ProfileCard/ProfileCard'
+import Polaroid from './Polaroid/Polaroid'
 
 export default function Hero() {
   return (
@@ -24,25 +24,11 @@ export default function Hero() {
         </div>
 
           <div className="mt-4 flex items-center justify-center">
-            <ProfileCard
-              className="pc-card--compact"
-              name="Paloma B. Lima"
-              title="Desenvolvedora de Software"
-              handle="palomalima"
-              status="Disponível p/ PJ"
-              contactText="Contato"
-              avatarUrl="/profile.jpg"
-              showUserInfo={false}
-              enableTilt={false}
-              enableMobileTilt={false}
-              onContactClick={() => {
-                window.location.href = '#contato'
-              }}
-              behindGlowColor="rgba(139, 47, 201, 0.35)"
-              iconUrl="/profile-pattern.svg"
-              grainUrl="/grain.svg"
-              behindGlowEnabled
-              innerGradient="linear-gradient(145deg, #8b2fc933 0%, #0d9d7633 100%)"
+            <Polaroid
+              src={`${import.meta.env.BASE_URL}profile.jpg`}
+              alt="Paloma B. Lima"
+              caption="Paloma B. Lima"
+              subcaption="Dev de Sistemas"
             />
           </div>
       </div>
