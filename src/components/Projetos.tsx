@@ -1,10 +1,22 @@
 import { useState } from 'react'
 import StatusBar from './StatusBar'
 
+const capturas = import.meta.glob('/src/assets/projetos/*/*.{png,jpg,jpeg,webp}', {
+  eager: true,
+  import: 'default',
+}) as Record<string, string>
+
+function imagensDoProjeto(slug: string): string[] {
+  return Object.keys(capturas)
+    .filter((caminho) => caminho.includes(`/projetos/${slug}/`))
+    .sort()
+    .map((caminho) => capturas[caminho])
+}
+
 interface Projeto {
   categoria: string
   nome: string
-  imagem: string
+  slug: string
   problema: string
   solucao: string
   funcionalidades: string[]
@@ -16,7 +28,7 @@ const projetos: Projeto[] = [
   {
     categoria: 'Gestão de demandas',
     nome: 'Sistema de Gestão de Demandas',
-    imagem: '/projetos/sistema-gestao-demandas.png',
+    slug: 'sistema-gestao-demandas',
     destaque: true,
     problema:
       'Colaboradores registravam e acompanhavam solicitações de forma dispersa — misturando e-mail, Teams e conversas informais — sem rastreabilidade, sem métricas e sem clareza sobre o andamento de cada demanda.',
@@ -36,7 +48,7 @@ const projetos: Projeto[] = [
   {
     categoria: 'Metas e desempenho',
     nome: 'Sistema de Metas Estratégicas',
-    imagem: '/projetos/sistema-metas-estrategicas.png',
+    slug: 'sistema-metas-estrategicas',
     problema:
       'Setores sem forma padronizada de registrar e acompanhar metas estratégicas, dificultando visão consolidada do progresso da empresa.',
     solucao:
@@ -54,7 +66,7 @@ const projetos: Projeto[] = [
   {
     categoria: 'Financeiro e auditoria',
     nome: 'Livro Caixa Digital',
-    imagem: '/projetos/livro-caixa-digital.png',
+    slug: 'livro-caixa-digital',
     problema:
       'Lançamentos do caixa diário registrados manualmente, dificultando auditoria e rastreabilidade.',
     solucao:
@@ -73,7 +85,7 @@ const projetos: Projeto[] = [
   {
     categoria: 'Educação financeira',
     nome: 'CoopKids',
-    imagem: '/projetos/coopkids.png',
+    slug: 'coopkids',
     problema: 'Pais com dificuldade em organizar a mesada dos filhos de forma educativa.',
     solucao:
       'Aplicativo onde crianças cumprem tarefas diárias, acumulam pontos e recebem a mesada calculada automaticamente, com quizzes para recuperação de valores.',
@@ -91,7 +103,7 @@ const projetos: Projeto[] = [
   {
     categoria: 'Processos e cadastro',
     nome: 'Gerenciador de Cadastros',
-    imagem: '/projetos/gerenciador-cadastros.png',
+    slug: 'gerenciador-cadastros',
     problema:
       'Processos de abertura de contas e renovação de cadastros sem padronização, dificultando acompanhamento de desempenho dos cadastristas.',
     solucao:
@@ -108,29 +120,73 @@ const projetos: Projeto[] = [
   },
 ]
 
-function ProjetoScreenshot({ src, alt }: { src: string; alt: string }) {
-  const [carregou, setCarregou] = useState(true)
+function ProjetoGaleria({ imagens, alt }: { imagens: string[]; alt: string }) {
+  const [indice, setIndice] = useState(0)
 
-  if (!carregou) {
+  if (imagens.length === 0) {
     return (
       <div className="mt-4 flex aspect-video items-center justify-center rounded-sm border border-dashed border-linha bg-papel-quente px-4 text-center">
-        <p className="text-xs text-indigo-profundo/50">
-          Print do sistema em breve
-          <br />
-          <span className="font-mono">{src.replace('/projetos/', '')}</span>
-        </p>
+        <p className="text-xs text-indigo-profundo/50">Prints do sistema em breve</p>
       </div>
     )
   }
 
+  const anterior = () => setIndice((i) => (i - 1 + imagens.length) % imagens.length)
+  const proxima = () => setIndice((i) => (i + 1) % imagens.length)
+
   return (
-    <img
-      src={src}
-      alt={alt}
-      loading="lazy"
-      onError={() => setCarregou(false)}
-      className="mt-4 aspect-video w-full rounded-sm border border-linha object-cover"
-    />
+    <div className="relative mt-4">
+      <div className="overflow-hidden rounded-sm border border-linha">
+        <div
+          className="flex transition-transform duration-300 ease-out"
+          style={{ transform: `translateX(-${indice * 100}%)` }}
+        >
+          {imagens.map((src, i) => (
+            <img
+              key={src}
+              src={src}
+              alt={`${alt} — foto ${i + 1} de ${imagens.length}`}
+              loading="lazy"
+              className="aspect-video w-full flex-shrink-0 object-cover"
+            />
+          ))}
+        </div>
+      </div>
+
+      {imagens.length > 1 && (
+        <>
+          <button
+            type="button"
+            onClick={anterior}
+            aria-label="Foto anterior"
+            className="absolute left-2 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full border border-linha bg-papel-quente/90 text-lg leading-none text-indigo-profundo shadow-brutal-sm transition-colors hover:bg-orquidea hover:text-papel-quente"
+          >
+            ‹
+          </button>
+          <button
+            type="button"
+            onClick={proxima}
+            aria-label="Próxima foto"
+            className="absolute right-2 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full border border-linha bg-papel-quente/90 text-lg leading-none text-indigo-profundo shadow-brutal-sm transition-colors hover:bg-orquidea hover:text-papel-quente"
+          >
+            ›
+          </button>
+          <div className="mt-2 flex justify-center gap-1.5">
+            {imagens.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setIndice(i)}
+                aria-label={`Ir para foto ${i + 1}`}
+                className={`h-1.5 w-1.5 rounded-full transition-colors ${
+                  i === indice ? 'bg-orquidea' : 'bg-linha'
+                }`}
+              />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
   )
 }
 
@@ -147,7 +203,7 @@ function ProjetoCard({ projeto }: { projeto: Projeto }) {
         {projeto.nome}
       </h3>
 
-      <ProjetoScreenshot src={projeto.imagem} alt={`Print do sistema: ${projeto.nome}`} />
+      <ProjetoGaleria imagens={imagensDoProjeto(projeto.slug)} alt={`Print do sistema: ${projeto.nome}`} />
 
       <dl className="mt-6 space-y-4 text-sm text-indigo-profundo/85">
         <div>

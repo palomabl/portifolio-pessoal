@@ -47,7 +47,7 @@ export default function Navbar() {
       </nav>
 
       {open && (
-        <ul id="menu-mobile" className="border-t border-linha px-4 pb-4 md:hidden">
+        <ul id="menu-mobile" className="border-t border-linha bg-papel-quente px-4 pb-4 md:hidden">
           {links.map((link) => (
             <li key={link.href}>
               <a
