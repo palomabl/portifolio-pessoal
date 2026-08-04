@@ -16,7 +16,7 @@ export default function Contato() {
         <div className="mt-8 flex flex-wrap items-center gap-4">
           {/* TODO: substituir SEUNUMEROAQUI pelo número real de WhatsApp */}
           <a
-            href="https://wa.me/SEUNUMEROAQUI"
+            href="https://wa.me/5533991488616"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block bg-petroleo px-6 py-3 text-sm font-semibold text-papel shadow-elevado-sm transition-colors hover:bg-terracota"
