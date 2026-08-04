@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import StatusBar from './StatusBar'
 
 const capturas = import.meta.glob('/src/assets/projetos/*/*.{png,jpg,jpeg,webp}', {
@@ -120,8 +120,87 @@ const projetos: Projeto[] = [
   },
 ]
 
+function Lightbox({
+  imagens,
+  alt,
+  indice,
+  onFechar,
+  onAnterior,
+  onProxima,
+}: {
+  imagens: string[]
+  alt: string
+  indice: number
+  onFechar: () => void
+  onAnterior: () => void
+  onProxima: () => void
+}) {
+  useEffect(() => {
+    const aoTeclar = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onFechar()
+      if (e.key === 'ArrowLeft') onAnterior()
+      if (e.key === 'ArrowRight') onProxima()
+    }
+    window.addEventListener('keydown', aoTeclar)
+    return () => window.removeEventListener('keydown', aoTeclar)
+  }, [onFechar, onAnterior, onProxima])
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-indigo-profundo/90 p-4"
+      onClick={onFechar}
+      role="dialog"
+      aria-modal="true"
+    >
+      <button
+        type="button"
+        onClick={onFechar}
+        aria-label="Fechar"
+        className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full border border-papel-quente/40 text-xl leading-none text-papel-quente hover:bg-papel-quente/10"
+      >
+        ×
+      </button>
+
+      <img
+        src={imagens[indice]}
+        alt={`${alt} — foto ${indice + 1} de ${imagens.length}`}
+        className="max-h-[85vh] max-w-full rounded-sm object-contain"
+        onClick={(e) => e.stopPropagation()}
+      />
+
+      {imagens.length > 1 && (
+        <>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation()
+              onAnterior()
+            }}
+            aria-label="Foto anterior"
+            className="absolute left-2 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-papel-quente/40 text-2xl leading-none text-papel-quente hover:bg-papel-quente/10 sm:left-6"
+          >
+            ‹
+          </button>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation()
+              onProxima()
+            }}
+            aria-label="Próxima foto"
+            className="absolute right-2 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-papel-quente/40 text-2xl leading-none text-papel-quente hover:bg-papel-quente/10 sm:right-6"
+          >
+            ›
+          </button>
+        </>
+      )}
+    </div>
+  )
+}
+
 function ProjetoGaleria({ imagens, alt }: { imagens: string[]; alt: string }) {
   const [indice, setIndice] = useState(0)
+  const [aberta, setAberta] = useState(false)
 
   if (imagens.length === 0) {
     return (
@@ -147,11 +226,26 @@ function ProjetoGaleria({ imagens, alt }: { imagens: string[]; alt: string }) {
               src={src}
               alt={`${alt} — foto ${i + 1} de ${imagens.length}`}
               loading="lazy"
-              className="aspect-video w-full flex-shrink-0 object-cover"
+              onClick={() => {
+                setIndice(i)
+                setAberta(true)
+              }}
+              className="aspect-video w-full flex-shrink-0 cursor-zoom-in object-cover"
             />
           ))}
         </div>
       </div>
+
+      {aberta && (
+        <Lightbox
+          imagens={imagens}
+          alt={alt}
+          indice={indice}
+          onFechar={() => setAberta(false)}
+          onAnterior={anterior}
+          onProxima={proxima}
+        />
+      )}
 
       {imagens.length > 1 && (
         <>
