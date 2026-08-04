@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import StatusBar from './StatusBar'
+import BrowserFrame from './BrowserFrame'
 
 const capturas = import.meta.glob('/src/assets/projetos/*/*.{png,jpg,jpeg,webp}', {
   eager: true,
@@ -147,7 +148,7 @@ function Lightbox({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-indigo-profundo/90 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-grafite/90 p-4"
       onClick={onFechar}
       role="dialog"
       aria-modal="true"
@@ -156,7 +157,7 @@ function Lightbox({
         type="button"
         onClick={onFechar}
         aria-label="Fechar"
-        className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full border border-papel-quente/40 text-xl leading-none text-papel-quente hover:bg-papel-quente/10"
+        className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full border border-papel/40 text-xl leading-none text-papel hover:bg-papel/10"
       >
         ×
       </button>
@@ -164,7 +165,7 @@ function Lightbox({
       <img
         src={imagens[indice]}
         alt={`${alt} — foto ${indice + 1} de ${imagens.length}`}
-        className="max-h-[85vh] max-w-full rounded-sm object-contain"
+        className="max-h-[85vh] max-w-full object-contain"
         onClick={(e) => e.stopPropagation()}
       />
 
@@ -177,7 +178,7 @@ function Lightbox({
               onAnterior()
             }}
             aria-label="Foto anterior"
-            className="absolute left-2 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-papel-quente/40 text-2xl leading-none text-papel-quente hover:bg-papel-quente/10 sm:left-6"
+            className="absolute left-2 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-papel/40 text-2xl leading-none text-papel hover:bg-papel/10 sm:left-6"
           >
             ‹
           </button>
@@ -188,7 +189,7 @@ function Lightbox({
               onProxima()
             }}
             aria-label="Próxima foto"
-            className="absolute right-2 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-papel-quente/40 text-2xl leading-none text-papel-quente hover:bg-papel-quente/10 sm:right-6"
+            className="absolute right-2 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-papel/40 text-2xl leading-none text-papel hover:bg-papel/10 sm:right-6"
           >
             ›
           </button>
@@ -198,14 +199,14 @@ function Lightbox({
   )
 }
 
-function ProjetoGaleria({ imagens, alt }: { imagens: string[]; alt: string }) {
+function ProjetoGaleria({ imagens, alt, slug }: { imagens: string[]; alt: string; slug: string }) {
   const [indice, setIndice] = useState(0)
   const [aberta, setAberta] = useState(false)
 
   if (imagens.length === 0) {
     return (
-      <div className="mt-4 flex aspect-video items-center justify-center rounded-sm border border-dashed border-linha bg-papel-quente px-4 text-center">
-        <p className="text-xs text-indigo-profundo/50">Prints do sistema em breve</p>
+      <div className="mt-4 flex aspect-video items-center justify-center border border-dashed border-nevoa bg-osso px-4 text-center">
+        <p className="text-xs text-grafite/50">Prints do sistema em breve</p>
       </div>
     )
   }
@@ -215,26 +216,28 @@ function ProjetoGaleria({ imagens, alt }: { imagens: string[]; alt: string }) {
 
   return (
     <div className="relative mt-4">
-      <div className="overflow-hidden rounded-sm border border-linha">
-        <div
-          className="flex transition-transform duration-300 ease-out"
-          style={{ transform: `translateX(-${indice * 100}%)` }}
-        >
-          {imagens.map((src, i) => (
-            <img
-              key={src}
-              src={src}
-              alt={`${alt} — foto ${i + 1} de ${imagens.length}`}
-              loading="lazy"
-              onClick={() => {
-                setIndice(i)
-                setAberta(true)
-              }}
-              className="aspect-video w-full flex-shrink-0 cursor-zoom-in object-cover"
-            />
-          ))}
+      <BrowserFrame titulo={`sistema/${slug}`}>
+        <div className="overflow-hidden">
+          <div
+            className="flex transition-transform duration-300 ease-out"
+            style={{ transform: `translateX(-${indice * 100}%)` }}
+          >
+            {imagens.map((src, i) => (
+              <img
+                key={src}
+                src={src}
+                alt={`${alt} — foto ${i + 1} de ${imagens.length}`}
+                loading="lazy"
+                onClick={() => {
+                  setIndice(i)
+                  setAberta(true)
+                }}
+                className="aspect-video w-full flex-shrink-0 cursor-zoom-in object-cover"
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      </BrowserFrame>
 
       {aberta && (
         <Lightbox
@@ -253,7 +256,7 @@ function ProjetoGaleria({ imagens, alt }: { imagens: string[]; alt: string }) {
             type="button"
             onClick={anterior}
             aria-label="Foto anterior"
-            className="absolute left-2 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full border border-linha bg-papel-quente/90 text-lg leading-none text-indigo-profundo shadow-brutal-sm transition-colors hover:bg-orquidea hover:text-papel-quente"
+            className="absolute left-2 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full border border-nevoa bg-papel/90 text-lg leading-none text-grafite shadow-elevado-sm transition-colors hover:bg-terracota hover:text-papel"
           >
             ‹
           </button>
@@ -261,7 +264,7 @@ function ProjetoGaleria({ imagens, alt }: { imagens: string[]; alt: string }) {
             type="button"
             onClick={proxima}
             aria-label="Próxima foto"
-            className="absolute right-2 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full border border-linha bg-papel-quente/90 text-lg leading-none text-indigo-profundo shadow-brutal-sm transition-colors hover:bg-orquidea hover:text-papel-quente"
+            className="absolute right-2 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full border border-nevoa bg-papel/90 text-lg leading-none text-grafite shadow-elevado-sm transition-colors hover:bg-terracota hover:text-papel"
           >
             ›
           </button>
@@ -273,7 +276,7 @@ function ProjetoGaleria({ imagens, alt }: { imagens: string[]; alt: string }) {
                 onClick={() => setIndice(i)}
                 aria-label={`Ir para foto ${i + 1}`}
                 className={`h-1.5 w-1.5 rounded-full transition-colors ${
-                  i === indice ? 'bg-orquidea' : 'bg-linha'
+                  i === indice ? 'bg-terracota' : 'bg-nevoa'
                 }`}
               />
             ))}
@@ -285,47 +288,40 @@ function ProjetoGaleria({ imagens, alt }: { imagens: string[]; alt: string }) {
 }
 
 function ProjetoCard({ projeto }: { projeto: Projeto }) {
-  const borderColor = projeto.destaque ? 'border-orquidea' : 'border-menta'
+  const borderColor = projeto.destaque ? 'border-terracota' : 'border-nevoa'
   return (
     <article
-      className={`border ${borderColor} bg-papel-cartao p-6 shadow-brutal sm:p-8 ${
+      className={`border ${borderColor} bg-papel p-6 shadow-elevado sm:p-8 ${
         projeto.destaque ? 'md:col-span-2' : ''
       }`}
     >
-      <StatusBar label={projeto.categoria} color={projeto.destaque ? 'orquidea' : 'menta'} />
-      <h3 className="mt-4 text-xl font-bold text-indigo-profundo sm:text-2xl">
+      <StatusBar label={projeto.categoria} color={projeto.destaque ? 'terracota' : 'petroleo'} />
+      <h3 className="mt-4 font-display text-xl font-semibold text-grafite sm:text-2xl">
         {projeto.nome}
       </h3>
 
-      <ProjetoGaleria imagens={imagensDoProjeto(projeto.slug)} alt={`Print do sistema: ${projeto.nome}`} />
+      <ProjetoGaleria
+        imagens={imagensDoProjeto(projeto.slug)}
+        alt={`Print do sistema: ${projeto.nome}`}
+        slug={projeto.slug}
+      />
 
-      <dl className="mt-6 space-y-4 text-sm text-indigo-profundo/85">
+      <dl className="mt-6 space-y-4 text-sm text-grafite/85">
         <div>
-          <dt className="text-xs font-semibold uppercase tracking-wide text-orquidea">Problema</dt>
+          <dt className="text-xs font-semibold uppercase tracking-wide text-petroleo">Problema</dt>
           <dd className="mt-1">{projeto.problema}</dd>
         </div>
         <div>
-          <dt className="text-xs font-semibold uppercase tracking-wide text-orquidea">Solução</dt>
+          <dt className="text-xs font-semibold uppercase tracking-wide text-petroleo">Solução</dt>
           <dd className="mt-1">{projeto.solucao}</dd>
         </div>
         <div>
-          <dt className="text-xs font-semibold uppercase tracking-wide text-orquidea">O que o sistema faz</dt>
-          <dd className="mt-2">
-            <ul className="flex flex-wrap gap-2">
-              {projeto.funcionalidades.map((f) => (
-                <li
-                  key={f}
-                  className="rounded-sm bg-indigo-profundo px-2.5 py-1 text-xs text-menta"
-                >
-                  {f}
-                </li>
-              ))}
-            </ul>
-          </dd>
+          <dt className="text-xs font-semibold uppercase tracking-wide text-petroleo">O que o sistema faz</dt>
+          <dd className="mt-1 text-grafite/75">{projeto.funcionalidades.join(' · ')}</dd>
         </div>
-        <div>
-          <dt className="text-xs font-semibold uppercase tracking-wide text-orquidea">Resultado</dt>
-          <dd className="mt-1 font-medium text-menta">{projeto.impacto}</dd>
+        <div className="border-l-2 border-oliva pl-4">
+          <dt className="text-xs font-semibold uppercase tracking-wide text-petroleo">Resultado</dt>
+          <dd className="mt-1 font-display text-base font-semibold text-oliva">{projeto.impacto}</dd>
         </div>
       </dl>
     </article>
@@ -335,8 +331,8 @@ function ProjetoCard({ projeto }: { projeto: Projeto }) {
 export default function Projetos() {
   return (
     <section id="projetos" className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-      <h2 className="text-2xl font-bold text-indigo-profundo sm:text-3xl">
-        Projetos <span className="text-orquidea">e resultados entregues</span>
+      <h2 className="font-display text-2xl font-semibold text-grafite sm:text-3xl">
+        Projetos <span className="text-terracota">e resultados entregues</span>
       </h2>
       <div className="mt-8 grid gap-6 md:grid-cols-2">
         {projetos.map((p) => (

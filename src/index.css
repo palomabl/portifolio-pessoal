@@ -1,20 +1,21 @@
 @import "tailwindcss";
 
 @theme {
-  --color-indigo-profundo: #201c2c;
-  --color-navy-painel: #2a2850;
-  --color-orquidea: #8b2fc9;
-  --color-menta: #0d9d76;
-  --color-ambar: #c2760a;
-  --color-papel-quente: #f5f0e4;
-  --color-papel-cartao: #fffdf8;
-  --color-linha: #e4dbc7;
+  --color-grafite: #1b2a2e;
+  --color-petroleo: #1f4b4f;
+  --color-petroleo-suave: #2e6a6e;
+  --color-terracota: #c1622d;
+  --color-oliva: #5c6b47;
+  --color-osso: #ede8de;
+  --color-papel: #fbf9f5;
+  --color-nevoa: #d8d3c7;
 
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  --shadow-brutal: 4px 4px 0px #000;
-  --shadow-brutal-sm: 3px 3px 0px #000;
+  --shadow-elevado: 0 12px 28px -12px rgb(27 42 46 / 0.35), 0 2px 6px -2px rgb(27 42 46 / 0.15);
+  --shadow-elevado-sm: 0 6px 16px -6px rgb(27 42 46 / 0.3);
 }
 
 html {
@@ -23,13 +24,13 @@ html {
 }
 
 body {
-  background-color: var(--color-papel-quente);
-  color: var(--color-indigo-profundo);
+  background-color: var(--color-osso);
+  color: var(--color-grafite);
   font-family: var(--font-sans);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-menta);
+  outline: 2px solid var(--color-terracota);
   outline-offset: 2px;
 }
 

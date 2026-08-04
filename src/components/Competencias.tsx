@@ -52,41 +52,23 @@ const seguranca = {
 export default function Competencias() {
   return (
     <section id="competencias" className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-      <h2 className="text-2xl font-semibold text-indigo-profundo sm:text-3xl">
+      <h2 className="font-display text-2xl font-semibold text-grafite sm:text-3xl">
         O que eu resolvo pra você
       </h2>
 
       <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {categorias.map((cat) => (
-          <div key={cat.titulo} className="rounded-md border border-linha bg-papel-cartao p-6">
-            <h3 className="font-medium text-indigo-profundo">{cat.titulo}</h3>
-            <p className="mt-2 text-sm text-indigo-profundo/80">{cat.resumo}</p>
-            <ul className="mt-4 flex flex-wrap gap-2">
-              {cat.stack.map((item) => (
-                <li
-                  key={item}
-                  className="rounded-sm bg-indigo-profundo px-2.5 py-1 text-xs text-papel-quente/60"
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
+          <div key={cat.titulo} className="border border-nevoa bg-papel p-6">
+            <h3 className="font-display font-semibold text-grafite">{cat.titulo}</h3>
+            <p className="mt-2 text-sm text-grafite/80">{cat.resumo}</p>
+            <p className="mt-4 text-xs text-grafite/50">{cat.stack.join(' · ')}</p>
           </div>
         ))}
 
-        <div className="rounded-md border border-linha bg-papel-cartao p-6 sm:col-span-2 lg:col-span-3">
-          <h3 className="font-medium text-indigo-profundo">Segurança</h3>
-          <p className="mt-3 text-sm text-indigo-profundo/80">{seguranca.resumo}</p>
-          <ul className="mt-4 flex flex-wrap gap-2">
-            {seguranca.stack.map((item) => (
-              <li
-                key={item}
-                className="rounded-sm bg-indigo-profundo px-2.5 py-1 text-xs text-papel-quente/60"
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
+        <div className="border border-nevoa bg-papel p-6 sm:col-span-2 lg:col-span-3">
+          <h3 className="font-display font-semibold text-grafite">Segurança</h3>
+          <p className="mt-3 text-sm text-grafite/80">{seguranca.resumo}</p>
+          <p className="mt-4 text-xs text-grafite/50">{seguranca.stack.join(' · ')}</p>
         </div>
       </div>
     </section>
